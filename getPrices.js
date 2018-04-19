@@ -1,8 +1,4 @@
-const express = require('express')
-const app = express()
-const getPrices = require('./getPrices')
 const fetch = require('node-fetch');
-
 let priceObj = {}
 
 const startPricesTicking = () => {
@@ -17,18 +13,13 @@ const getLatestPrice = (coins, currency) => {
     fetch(url)
     .then(response => response.json(response))
     .then(price => {
-        priceObj = price
-        console.log(priceObj)
+        let priceObj = price
+        return priceObj
     })
     .catch(err => console.log(err))
 }
-
-startPricesTicking();
-
-app.get('/prices', (req, res) => {
-    res.json(priceObj)
-})
-
-app.listen(3000, () => {
-    console.log('Server started on port 3000')
-})
+module.exports = {
+    startPricesTicking,
+    getLatestPrice,
+    priceObj
+} 
